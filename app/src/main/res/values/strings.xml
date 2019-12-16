@@ -7,4 +7,6 @@
     <string name="source_44k">Single 44k</string>
     <string name="source_48k">Single 48k</string>
     <string name="test_info">Test info for mic</string>
+    <string name="radio_mono">Mono</string>
+    <string name="radio_stereo">Stereo</string>
 </resources>

@@ -7,6 +7,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MicrophoneInfo;
@@ -34,9 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
     private AudioRecorder recorder;
     private Button btn_start;
-    private TextView countText;
+    private RadioGroup channel_group;
+
+    private int audio_channel =  AudioFormat.CHANNEL_IN_MONO;
+    private String filename = "Recorded_audio_MONO";
 
     private Boolean isRecording = false;
+    private static int sample_rate = 44100;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +53,30 @@ public class MainActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         btn_start = findViewById(R.id.button);
-        countText = findViewById(R.id.counttext);
         verifyStoragePermissions(this);
         verifyAudioPermission(this);
         recorder = AudioRecorder.getInstance();
-        recorder.createDefaultAudio("Recorded_audio",44100);
+
+        channel_group=findViewById(R.id.channel_group);
+        channel_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.channel_btn1:
+                        audio_channel = AudioFormat.CHANNEL_IN_MONO;
+                        filename = "Recorded_audio_Mono";
+//                        System.out.println("channel set to mono");
+                        break;
+                    case R.id.channel_btn2:
+                        audio_channel = AudioFormat.CHANNEL_IN_STEREO;
+                        filename = "Recorded_audio_Stereo";
+//                        System.out.println("channel set to stereo");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -88,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         if(recorder.getState()==Status.STATUS_NO_READY)
         {
             Log.d(Main_TAG, "=====CreateInstance======");
-            recorder.createDefaultAudio("Recorded_audio",44100);
+            recorder.createDefaultAudio(filename, sample_rate, audio_channel);
 
         }
         if(recorder.getState()==Status.STATUS_READY)
@@ -96,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(Main_TAG, "=====StartRecordAudio======");
             recorder.startRecord();
             isRecording = true;
-            btn_start.setText("Stop");
+            btn_start.setText(R.string.btn_stop);
         }
         else if(recorder.getState() == Status.STATUS_START)
         {
@@ -110,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(Main_TAG, "=====StopRecordAudio======");
             recorder.stopRecord();
             isRecording = false;
-            btn_start.setText("Start");
+            btn_start.setText(R.string.btn_start);
         }
     }
 

@@ -26,9 +26,9 @@ public class AudioRecorder {
     private final static int AUDIO_INPUT = MediaRecorder.AudioSource.UNPROCESSED;
     // Sample rate
     // Here we choose 44100
-    private final static int AUDIO_SAMPLE_RATE = 44100;
+    // private final static int AUDIO_SAMPLE_RATE = 44100;
     // Audio channel: single channel
-    private final static int AUDIO_CHANNEL = AudioFormat.CHANNEL_IN_STEREO;
+    // private final static int AUDIO_CHANNEL = AudioFormat.CHANNEL_IN_STEREO;
     // Audio format：PCM_16BIT
     private final static int AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
     // size of buffer bytes
@@ -63,11 +63,11 @@ public class AudioRecorder {
      * create record object
      * @param inputfileName the filename to be stored
      */
-    public void createDefaultAudio(String inputfileName, int sample_rate) {
+    public void createDefaultAudio(String inputfileName, int sample_rate, int audio_channel) {
         // calculate the size for the buffer size
         int audioSource = AUDIO_INPUT;
         int sampleRateInHz = sample_rate;
-        int channelConfig = AUDIO_CHANNEL;
+        int channelConfig = audio_channel;
         int audioFormat = AUDIO_ENCODING;
         bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz,
                 channelConfig, audioFormat);

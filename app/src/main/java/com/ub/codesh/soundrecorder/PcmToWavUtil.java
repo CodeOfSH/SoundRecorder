@@ -36,8 +36,8 @@ public class PcmToWavUtil {
         long totalAudioLen;
         long totalDataLen;
         long longSampleRate = mSampleRate;
-//        int channels = mChannel == AudioFormat.CHANNEL_IN_MONO ? 1 : 2;
-        int channels = mChannel == AudioFormat.CHANNEL_IN_STEREO ? 2 : 1;
+        int channels = mChannel == AudioFormat.CHANNEL_IN_MONO ? 1 : 2;
+//        int channels = mChannel == AudioFormat.CHANNEL_IN_STEREO ? 2 : 1;
         long byteRate = 16 * mSampleRate * channels / 8;
         byte[] data = new byte[mBufferSize];
         try {
